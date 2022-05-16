@@ -1,0 +1,32 @@
+{
+  "name": "keycloak-fastify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohit2314/keycloak-fastify.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohit2314/keycloak-fastify/issues"
+  },
+  "homepage": "https://github.com/mohit2314/keycloak-fastify#readme",
+  "dependencies": {
+    "@fastify/mongodb": "^5.0.0",
+    "@fastify/swagger": "^6.0.1",
+    "axios": "^0.27.2",
+    "fastify": "^3.29.0",
+    "fastify-plugin": "^3.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
