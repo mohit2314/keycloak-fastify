@@ -8,7 +8,7 @@ fastify.register(require("@fastify/swagger"), {
   },
   consumes: ['application/x-www-form-urlencoded']
 });
-// fastify.register(require("./routes/items"));
+fastify.register(require("./routes/keycloakRoutes"));
 
 const PORT = 5000;
 
