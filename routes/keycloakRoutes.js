@@ -1,4 +1,5 @@
 const { default: axios } = require('axios');
+const { v4: uuidv4 } = require("uuid");
 
 const keycloakAuthOpts = {
     schema: {
@@ -113,7 +114,18 @@ function keycloakRoutes(fastify, options, done) {
                 });
                 console.log("USER RESPONSE", userResponse)
                 if (userResponse.data.length>0) {
-                    reply.send({ message: `User already exist with this email ${email} ${userResponse}` })
+                    let user_id= userResponse.data[0].id
+                    try {
+                        console.log("CHANGE USER PSWD");
+                        let newPswd = uuidv4();
+                        await axios({
+                            method: "PUT",
+                            url: `http://localhost:8080/admin/realms/myRealm/users/${user_id}/reset-password`,
+                            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${access_token_stored}` },
+                            data: `{"type":"password","value":"${newPswd}","temporary":false}`
+                        });
+                        reply.send({ message: `User already exists. Password for user ${user_id} has been reset . New Password:-${newPswd}` })
+                    } catch (err) { }
                 }
                 //User with this email does not exist
                 //Create user with this email 
