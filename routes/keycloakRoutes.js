@@ -39,6 +39,46 @@ const userOpts = {
     }
 }
 
+const createUserOpts = {
+    schema: {
+        body: {
+            type: 'object',
+            properties: {
+                // createdTimestamp: { type: 'number' },
+                // username: { type: 'string' },
+                // enabled: { type: 'boolean' },
+                // totp: { type: 'boolean' },
+                // emailVerified: { type: 'boolean' },
+                // firstName: { type: 'string' },
+                // lastName: { type: 'string' },
+                email: { type: 'string' },
+                // disableableCredentialTypes: { type: 'array' },
+                // requiredActions: { type: 'array' },
+                // notBefore: { type: 'number' },
+                // access: {
+                //     manageGroupMembership: { type: 'boolean' },
+                //     view: { type: 'boolean' },
+                //     mapRoles: { type: 'boolean' },
+                //     impersonate: { type: 'boolean' },
+                //     manage: { type: 'boolean' }
+                // }
+            }
+        },
+        response: {
+            //     // 200: userObj 
+            200: {
+                type: 'object',
+                properties: {
+                    message: { type: 'string' }
+                }
+            }
+        }
+
+    }
+}
+
+// ----------------------------
+
 function keycloakRoutes(fastify, options, done) {
     var access_token_stored = '';
     //get access token
@@ -78,7 +118,13 @@ function keycloakRoutes(fastify, options, done) {
                 //User with this email does not exist
                 //Create user with this email 
                 else {
-                    reply.send({ message: `New user created with this email ${email}` })
+                   let newUser = await axios({
+                        method: "POST",
+                        url: `http://localhost:8080/admin/realms/myRealm/users`,
+                        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${access_token_stored}` },
+                        data: {"username":`${email.split('@')[0]}`,  "email": `${email}` }
+                    });
+                    reply.send({ message: `New user created with this email ${email} New User ${newUser.data}`  })
 
                 }
 
